@@ -85,3 +85,16 @@ console.log(generateTimeline(config1, 1));
 console.log(generateTimeline(config2, 2));
 console.log(generateTimeline(config3, 1));
 console.log(generateTimeline(config4, 1));
+
+
+
+//////////////////////////
+function generateTimeline(config,cycles){
+  const allPhases = Array(cycles).fill(config.phases).flat();  //  Array(let say cycle =2)  this will create 2 array inside of an arr
+  let total = 0;                                                // .fill(here the three object of each arr put inside)
+  return allPhases.reduce((timeline,phase)=>{                   // .flat(spread the values of that object properties)
+    total+=phase.duration;                     // here the timeline is act an accumulator. phases has been in loop 
+    timeline.push(total);                      // get phases.duration and put into total then total into accumulator.
+    return timeline;                        // finnaly rretrunn  accumuatr so called timeline.
+  },[]);
+}
