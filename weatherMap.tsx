@@ -30,7 +30,21 @@ WeatherMap
 // useMap This is a React Leaflet hook. It gives you access to the actual Leaflet map instance. That's important because later you do:  map.flyTo(...)
 // import L from "leaflet"; Here you're importing Leaflet's JavaScript API directly.
 
+Why does FlyTo return null?
+return null;
+Because this component doesn't visually render anything.
+Its job is to perform an action:
 
+FlyTo
+  ↓
+useMap()
+  ↓
+map.flyTo()
+
+It's a behavior component, not a UI component.
+This is a very useful React pattern.
+
+      
 import {useEffect, useRef} from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";  // Think of them as React wrappers around Leaflet's JavaScript API.
 // MapContainer  Creates the actual map. <MapContainer>  Think: "Give me a map."
