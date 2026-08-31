@@ -18,11 +18,22 @@ WeatherMap
       └── "Navigate" Google Maps link
 
 
+
 // this is the architecture what we have done so far in this component.
 
+
+
 // useEffect we have used for later move the map when the user's coordinates changes.
+// TileLayer Provides the visual map. Without a tile layer, you basically have an empty map container.  <TileLayer url="..." />  Think: "What should I draw on the map?"
+// Marker Places a marker at coordinates. <Marker position={[25.2, 55.3]} />  Think: "Put something at this latitude and longitude."
+// Popup  :  create a little information box when we click a marker the coordinates on map
+// useMap This is a React Leaflet hook. It gives you access to the actual Leaflet map instance. That's important because later you do:  map.flyTo(...)
+// import L from "leaflet"; Here you're importing Leaflet's JavaScript API directly.
+
+
 import {useEffect, useRef} from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";  // Think of them as React wrappers around Leaflet's JavaScript API.
+// MapContainer  Creates the actual map. <MapContainer>  Think: "Give me a map."
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { EMIRATES, type EmiratesData } from ".../utils/emirates.ts";
