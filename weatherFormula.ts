@@ -1,3 +1,10 @@
+// all the data has been coming form an API where latitude and longitude and conditions and temp many  mores..
+// here is to use that data  manipultae it and and return possible condition and ui decision 
+// data is coming from the same api but here we create function and these function will make decision 
+/// on the basis of provided data and pass through each function and get insights that the function return what 
+// in accordance to data.
+
+
 // here we will mostly do some physics works 
 // formulas like HAVERSINE which is used to calc distance between two points in KM
 // Haversine formula
@@ -47,15 +54,15 @@ export function buildMapLink(lat: number, lon: number): string {
 }
 
 
-
+// union type without this no string is possible to answer. just the unions.
 export type VisibilityLevel = "good" | "moderate" | "poor" | "dangerous";
 
 export interface VisibilityWarning  {
-   level: VisibilityLevel;
+   level: VisibilityLevel;    // level can be union type
    label: string;
-   detail: string;
-   color: string;
-    bg: string;
+   detail: string;  // ui
+   color: string; // ui
+    bg: string;  // ui
 }
 
 export function geoRoadVisibility(
@@ -69,7 +76,8 @@ export function geoRoadVisibility(
 
   // for sandStorm or dust in the air dangerous in uae.
   const isSandstorm = cond.includes("dust") || cond.includes("sand") || cond.includes("haze") || (windSpeed > 50 && humidity < 40);
-
+// here isSandStorm wiill return true or false.
+    
   // for fog inthe uae
   const isFog = cond.includes("fog") || (visibility < 1 && humidity > 80);
 
