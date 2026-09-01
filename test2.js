@@ -24,3 +24,13 @@ function evaluateGuess(magicNumber, guess) {
   }
 }
 
+
+function guessingGame() {
+  const magicNumber = 22;
+  const guess = prompt('guess a number between 1 and 100!');
+  const message = evaluateGuess(magicNumber, guess);
+  alert(message);
+}
+
+guessingGame();
+
