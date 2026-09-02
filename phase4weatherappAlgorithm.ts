@@ -78,5 +78,15 @@ export function getScoreLabel(score: number): {
 }
 
 
+export function getOmanDestinations(): Destination[] {
+  return DESTINATIONS.filter((d) => d.omanBorder);
+}
+ 
+export function filterByType(type: DestinationType | "all"): Destination[] {
+  if (type === "all") return DESTINATIONS;
+  return DESTINATIONS.filter((d) => d.type === type);
+}
+
+
 
 
