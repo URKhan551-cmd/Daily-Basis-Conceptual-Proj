@@ -1,3 +1,10 @@
+scoreDestination has been returning an object where it has
+{
+  id
+score
+resons
+warnings
+}
 export function scoreDestination(
   dest:       Destination,
   temp:       number,
