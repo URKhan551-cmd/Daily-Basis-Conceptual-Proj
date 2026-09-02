@@ -63,4 +63,20 @@ export function scoreDestination(
     warnings,
   };
 }
- 
+
+
+      // the return object from that func has score and this return score has been used by this function and 
+// and used by this function  decide what to return 
+export function getScoreLabel(score: number): {
+  label: string; color: string; bg: string; emoji: string;
+} {
+  if (score >= 80) return { label: "Excellent",    emoji: "🟢", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/30" };
+  if (score >= 65) return { label: "Good",          emoji: "🔵", color: "text-sky-400",     bg: "bg-sky-500/10     border-sky-500/30"     };
+  if (score >= 45) return { label: "Fair",          emoji: "🟡", color: "text-yellow-400",  bg: "bg-yellow-500/10  border-yellow-500/30"  };
+  if (score >= 25) return { label: "Poor",          emoji: "🟠", color: "text-orange-400",  bg: "bg-orange-500/10  border-orange-500/30"  };
+  return               { label: "Not advised",  emoji: "🔴", color: "text-red-400",     bg: "bg-red-500/10     border-red-500/30"     };
+}
+
+
+
+
