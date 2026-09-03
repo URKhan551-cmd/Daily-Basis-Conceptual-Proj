@@ -268,3 +268,19 @@ const fetchComparison = useCallback( async (
 
       return {results, loading, fetched, fetchDestination, fetchComparison};
 }
+
+
+ Your hook is acting as an orchestrator.
+
+It coordinates several things:
+
+Find destinations.
+Filter destinations.
+Fetch weather.
+Handle multiple requests.
+Handle individual failures.
+Extract current weather.
+Calculate scores.
+Sort destinations.
+Store results in React state.
+Give the finished data to your components.
