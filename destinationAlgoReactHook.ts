@@ -230,3 +230,41 @@ HERE WE USED Promise.allSetteled INSTED OF Promise.all     promise.all if one re
     }, []);
 
    
+const fetchComparison = useCallback( async (
+        cityA: string,
+        cityB: string
+    ): Promise<[DestinationWeather | nul, DestinationWeather | null]> => {
+        const makeEntry = async (city:string): Promise<DestinationWeather | null> => {
+            try{
+                const d = await apiResponse(city);
+                const cc = d.currentConditions as {
+                    temp: number; feelslike: number; conditions: string; icon: string;
+                    humidity: number; windspeed: number; uvindex: number; precipprob: number;
+                };
+
+                const fakeDest: Destination = {
+                    id: city, name: city, country: "", emoji: "📍",
+                    type: "city", lat: 0, lon: 0, city,
+                    tags: [], description: "",
+                };
+
+                const score = scoreDestination(fakeDest, cc.temp, cc.uvindex, cc.windspeed, cc.precipprob);
+                return {
+                    dest: fakeDest, temp: cc.temp, feelsLike: cc.feelslike,
+                    conditions: cc.conditions, icon: cc.icon, humidity: cc.humidity,
+                    windSpeed: cc.windspeed, uvIndex: cc.uvindex, precipProb: cc.precipprob,
+                    score, loading: false, error: null,
+            };
+
+        } catch {
+            return null;
+        }
+        };
+    
+    const [a, b] = await Promise.all([makeEntry(cityA), makeEntry(cityB)]);
+      return [a, b];
+
+      },  []);
+
+      return {results, loading, fetched, fetchDestination, fetchComparison};
+}
