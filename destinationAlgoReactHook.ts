@@ -28,4 +28,32 @@ Riyadh
 ...
 
 
-  
+  useState
+To store changing data:
+
+results
+loading
+fetched
+
+
+useCallback
+
+To memoize your functions:
+
+fetchDestination
+fetchComparison
+
+This means React doesn't unnecessarily create a brand-new function every render.
+
+
+apiResponse(city)
+
+which eventually does:
+
+city
+ ↓
+Visual Crossing API
+ ↓
+WeatherApiResponse
+
+
