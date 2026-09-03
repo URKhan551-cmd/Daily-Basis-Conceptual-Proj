@@ -131,12 +131,26 @@ export function useDestinations(){
     // fetch weather for filtered set of destination in parallel
   // here the destination type is UNION maybe "all" or the provided type one retrieve 
     const fetchDestination = useCallback( async (type: DestinationType | "all" = "all") => {
-         const targets = type === "all" ? DESTINATION : DESTINATIONS.filter((d) => d.type === type);
+         const targets = type === "all" ? DESTINATION : DESTINATIONS.filter((d) => d.type === type); 
 
+       // Is type "all"?
+       //            │
+       //       ┌────┴────┐
+       //      YES       NO
+       //       │          │
+       //       ▼          ▼
+       // all destinations
+       //              filter destinations
+       //              by type        
          setLoading(true);
          setFetched(false);
 
+      // here before the APi respnse
+      // we created a blueprint so called placeholder for the upcoming data
+
          //build placeholder rows immediately so UI shows loading states
+      // This isn't real weather.
+// It's temporary UI state.
          const placeholders: DestinationWeather[] = targets.map((dest) => ({
             dest,
             temp: 0, feelsLike: 0, conditions: "", icon: "",
@@ -148,13 +162,25 @@ export function useDestinations(){
          }));
 
          setResults(placeholders);
-
+      
+Now React immediately receives the loading rows.
+This is why the user doesn't see a completely empty screen while waiting.
 
         //  fetchAll in parallel - Promise.allSettled so one failure does not kill all fetch data
         const settled = await Promise.allSettled(
             targets.map(dest => apiResponse(dest.city))
-        );
+        ); 
+      
+      imp concept in javascript [
+    apiResponse("Dubai"),
+    apiResponse("Abu Dhabi"),
+    apiResponse("Sharjah"),
+    apiResponse("Fujairah")
+]   concurrent call to these cities
 
+HERE WE USED Promise.allSetteled INSTED OF Promise.all     promise.all if one request eject it will reject all requests.
+  but in Promise.allSetteled if one get reject all other will responsed without any error effect on eaach other.
+      
         const final: DestinationWeather[] = targets.map((dest, i) => {
             const result = settled[i];
 
@@ -167,7 +193,7 @@ export function useDestinations(){
             }
 
             const d = result.value;
-            const cc = d.currentConditions as {
+            const cc = d.currentConditions as {  // i think we defined the currentCondition in aoiRESPONSE FILE  we dont ned this.
                 temp: number; feelslike: number; conditions: string; icon: string;
                 humidity: number; windspeed: number; uvindex: number; precipprob: number;
             };
