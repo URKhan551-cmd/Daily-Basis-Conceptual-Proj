@@ -1,3 +1,70 @@
+Let the user enter two cities.
+Fetch weather information for both.
+Calculate/receive a destination score for each.
+Display the two destinations side-by-side.
+Decide which destination has the higher score.
+Show the winner and the reasons/warnings behind each score.
+
+  DATA FLOW 
+User types cities
+       ↓
+cityA / cityB state
+       ↓
+handleCompare()
+       ↓
+fetchComparison(cityA, cityB)
+       ↓
+useDestinations hook
+       ↓
+Weather/API + destination scoring
+       ↓
+DestinationWeather objects
+       ↓
+resultA / resultB state
+       ↓
+CompareColumn
+       ↓
+UI
+
+ComparePanel
+     │
+     ├── CompareColumn A
+     │
+     └── CompareColumn B
+ComparePanel
+
+This is the controller/container.
+
+It handles:
+
+user input
+state
+API fetching
+loading
+errors
+determining winner
+passing data to child components
+
+CompareColumn
+
+This is the presentation component.
+
+It receives one destination's data and displays:
+
+destination name
+score
+temperature
+humidity
+wind
+UV
+rain probability
+conditions
+reasons
+warnings
+
+So conceptually:
+
+  
 import {useState} from "react";
 import {Search} from "lucide-react";
 import {getWeatherEmoji} from "../Api/weatherHelper.ts";
