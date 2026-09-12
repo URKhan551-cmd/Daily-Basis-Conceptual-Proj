@@ -87,3 +87,29 @@ Upcoming Hours: ${JSON.stringify(upcomingHours)}
         error: 'The AI model generated an empty response or the content was flagged by safety filters.'
       };
     }
+ // 3. Make API call using gemini-2.5-flash
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: [
+        {
+          role: 'user',
+          parts: [{ text: `${systemContext}\n\nUser Question: ${cleanQuestion}` }]
+        }
+      ]
+    });
+
+    // Edge Case 4: Blocked or Empty Model Output
+    const textOutput = response.text?.trim();
+    if (!textOutput) {
+      return {
+        success: false,
+        error: 'The AI model generated an empty response or the content was flagged by safety filters.'
+      };
+    }
+
+  return {
+      success: false,
+      error: friendlyMessage
+    };
+  }
+}
