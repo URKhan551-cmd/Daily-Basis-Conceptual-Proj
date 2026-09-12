@@ -49,3 +49,41 @@ export async function askGeminiDirectly(
     // 2. Prepare concise weather context (Today's summary + next 8 hours)
     const today = weatherData.days[0];
    
+   const upcomingHours = (today.hours || []).slice(0, 8).map(h => ({
+      time: h.datetime,
+      temp: h.temp,
+      feelsLike: h.feelslike,
+      conditions: h.conditions,
+      rainChance: h.precipprob
+    }));
+
+    const systemContext = `
+You are a helpful AI weather assistant.
+Use ONLY the provided weather data to answer the user's question concisely and accurately.
+
+Location Description: ${today.description}
+Today's Date: ${today.datetime}
+Temp Range: ${today.tempmin}°C to ${today.tempmax}°C (Current/Avg: ${today.temp}°C, Feels like: ${today.feelslike}°C)
+Conditions: ${today.conditions} | Humidity: ${today.humidity}% | UV Index: ${today.uvindex}
+Upcoming Hours: ${JSON.stringify(upcomingHours)}
+`;
+
+                                    // 3. Make API call using gemini-2.5-flash
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: [
+        {
+          role: 'user',
+          parts: [{ text: `${systemContext}\n\nUser Question: ${cleanQuestion}` }]
+        }
+      ]
+    });
+
+    // Edge Case 4: Blocked or Empty Model Output
+    const textOutput = response.text?.trim();
+    if (!textOutput) {
+      return {
+        success: false,
+        error: 'The AI model generated an empty response or the content was flagged by safety filters.'
+      };
+    }
